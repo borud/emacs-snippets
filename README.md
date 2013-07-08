@@ -12,3 +12,7 @@ Put this file somewhere in your emacs load path and add this to your
     (require 'snippets)
 	(global-set-key (kbd "C-c S") 'snippet-visit-file)
 
+## Markdown mode
+
+You might want to add Markdown mode to your Emacs. Here is the
+implementation I use http://jblevins.org/projects/markdown-mode/
