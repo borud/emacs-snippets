@@ -53,6 +53,9 @@
 	  ;; 420 == 0644
 	  (set-file-modes file 420)))
 
+    ;; Set local keybinding
+    (local-set-key (kbd "C-c a") 'snippet-append-timestamp-header)
+    
     (goto-char (point-max))))
 
 (defun snippet-insert-header-at-point ()
