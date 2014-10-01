@@ -17,9 +17,20 @@
 ;;;
 (defvar snippet-root-directory "~/Dropbox/log/snippets/")
 
+(defun snippet-week-starts-monday-fuckheads (x)
+  "Stupid Emacs is inconsistent about which day of the week is the first day"
+  (mod (+ x 1) 7))
+
+(defun snippet-first-day-of-week ()
+  (time-subtract (current-time) (seconds-to-time (* (snippet-week-starts-monday-fuckheads (string-to-number (format-time-string "%w"))) 86400.0))))
+
 (defun snippet-make-directory-name ()
   "Generate directory name for snippet dir"
-  (concat (expand-file-name snippet-root-directory) (format-time-string "%Y/%m")))
+  ;; We have to use the week-start-correction thing here because Emacs
+  ;; is fucked and confused about which weekday is the first.  So it
+  ;; will assume monday for ISO week numbers and sunday for the rest.
+  ;; This is completely fucked.
+  (concat (expand-file-name snippet-root-directory) (format-time-string "%Y/%m" (snippet-first-day-of-week))))
 
 (defun snippet-make-filename ()
   "Make snippet filename for today"
@@ -61,7 +72,7 @@
 (defun snippet-insert-header-at-point ()
   (interactive)
   (insert
-   (concat "# Snippets for week " (format-time-string "%W") "\n\n"
+   (concat "# Snippets for week " (format-time-string "%W" (snippet-first-day-of-week)) "\n\n"
 	   "## Goals\n\n"
 	   "## Later\n\n"
 	   "## Work log\n")))
